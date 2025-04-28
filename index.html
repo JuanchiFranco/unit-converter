@@ -10,6 +10,27 @@ The user can input a value and select the units to convert from and to. The appl
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unit Converter</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A simple and efficient unit converter web app to convert between length, weight, temperature, and more.">
+    <meta name="keywords" content="unit converter, length converter, weight converter, temperature converter, measurement converter">
+    <meta name="author" content="Your Name">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Unit Converter">
+    <meta property="og:description" content="Convert units of measurement easily with our Unit Converter web app.">
+    <meta property="og:image" content="./public/logoconverter.png">
+    <meta property="og:url" content="https://yourwebsite.com/unit-converter">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Unit Converter">
+    <meta name="twitter:description" content="A simple and efficient unit converter web app to convert between different units of measurement.">
+    <meta name="twitter:image" content="./public/logoconverter.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./public/logoconverter.png" type="image/png">
 </head>
 <body>
     <header>
@@ -18,6 +39,10 @@ The user can input a value and select the units to convert from and to. The appl
             <h1>Unit Converter</h1>
         </div>
     </header>
+    <main style="text-align: center; margin: 20px;">
+        <h2>Convert Units of Measurement</h2>
+        <p>Select a unit type to convert:</p>
+    </main>
     <nav style="text-align: center; margin: 20px;">
         <button onclick="loadComponent('length')">Length</button>
         <button onclick="loadComponent('weight')">Weight</button>
