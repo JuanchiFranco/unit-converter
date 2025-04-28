@@ -43,40 +43,18 @@ The user can input a value and select the units to convert from and to. The appl
         <h2>Convert Units of Measurement</h2>
         <p>Select a unit type to convert:</p>
     </main>
-    <nav style="text-align: center; margin: 20px;">
-        <button onclick="loadComponent('length')">Length</button>
-        <button onclick="loadComponent('weight')">Weight</button>
-        <button onclick="loadComponent('temperature')">Temperature</button>
-    </nav>
+    <div class="buttons" style="text-align: center; margin: 20px;">
+        <button class="buttons-option active" onclick="loadComponent('length')">Length</button>
+        <button class="buttons-option" onclick="loadComponent('weight')">Weight</button>
+        <button class="buttons-option" onclick="loadComponent('temperature')">Temperature</button>
+    </div>
     <div id="component-container" style="text-align: center; margin: 20px;"></div>
 
-    <script>
-        function loadComponent(component) {
-            const container = document.getElementById('component-container');
-            fetch(`./src/Components/${component}.html`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Component not found');
-                    }
-                    return response.text();
-                })
-                .then(html => {
-                    container.innerHTML = html;
-                    const loadedComponent = container.querySelector('div');
-                    if (loadedComponent) {
-                        loadedComponent.style.display = 'block';
-                    }
-                    const scripts = container.querySelectorAll('script');
-                    scripts.forEach(script => {
-                        const newScript = document.createElement('script');
-                        newScript.textContent = script.textContent;
-                        document.body.appendChild(newScript).parentNode.removeChild(newScript);
-                    });
-                })
-                .catch(error => {
-                    container.innerHTML = `<p style="color: red;">Error loading component: ${error.message}</p>`;
-                });
-        }
-    </script>
+    <div id="result-container" style="text-align: center; margin: 20px; display: none;">
+        <p id="result-text"></p>
+        <button id="reset-button" onclick="resetForm()">Reset</button>
+    </div>
+
+    <script src="./src/scripts/script.js"></script>
 </body>
 </html>
