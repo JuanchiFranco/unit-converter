@@ -1,0 +1,73 @@
+<div id="length-converter">
+    <h2>Length Converter</h2>
+    <div id="length-form-container">
+        <form id="length-form">
+            <label for="length-input">Enter length:</label>
+            <input type="number" id="length-input" placeholder="Enter value" required />
+
+            <label for="from-unit">From:</label>
+            <select id="from-unit">
+                <option value="meters">Meters</option>
+                <option value="kilometers">Kilometers</option>
+                <option value="miles">Miles</option>
+                <option value="feet">Feet</option>
+                <option value="inches">Inches</option>
+            </select>
+
+            <label for="to-unit">To:</label>
+            <select id="to-unit">
+                <option value="meters">Meters</option>
+                <option value="kilometers">Kilometers</option>
+                <option value="miles">Miles</option>
+                <option value="feet">Feet</option>
+                <option value="inches">Inches</option>
+            </select>
+
+            <button type="submit">Convert</button>
+        </form>
+    </div>
+    <div id="length-result-container" style="display: none;">
+        <p id="length-result"></p>
+        <button id="reset-button">Reset</button>
+    </div>
+</div>
+
+<script>
+    const conversionRates = {
+        meters: { meters: 1, kilometers: 0.001, miles: 0.000621371, feet: 3.28084, inches: 39.3701 },
+        kilometers: { meters: 1000, kilometers: 1, miles: 0.621371, feet: 3280.84, inches: 39370.1 },
+        miles: { meters: 1609.34, kilometers: 1.60934, miles: 1, feet: 5280, inches: 63360 },
+        feet: { meters: 0.3048, kilometers: 0.0003048, miles: 0.000189394, feet: 1, inches: 12 },
+        inches: { meters: 0.0254, kilometers: 0.0000254, miles: 0.000015783, feet: 0.0833333, inches: 1 }
+    };
+
+    const form = document.getElementById('length-form');
+    const resultContainer = document.getElementById('length-result-container');
+    const resultText = document.getElementById('length-result');
+    const resetButton = document.getElementById('reset-button');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const lengthInput = parseFloat(document.getElementById('length-input').value);
+        const fromUnit = document.getElementById('from-unit').value;
+        const toUnit = document.getElementById('to-unit').value;
+
+        if (!isNaN(lengthInput)) {
+            const conversionRate = conversionRates[fromUnit][toUnit];
+            const convertedValue = lengthInput * conversionRate;
+
+            resultText.textContent = `${lengthInput} ${fromUnit} is equal to ${convertedValue.toFixed(2)} ${toUnit}.`;
+            form.style.display = 'none';
+            resultContainer.style.display = 'block';
+        } else {
+            alert('Please enter a valid number.');
+        }
+    });
+
+    resetButton.addEventListener('click', function () {
+        form.reset();
+        form.style.display = 'block';
+        resultContainer.style.display = 'none';
+    });
+</script>

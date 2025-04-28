@@ -1,0 +1,73 @@
+<div id="weight-converter">
+    <h2>Weight Converter</h2>
+    <div id="weight-form-container">
+        <form id="weight-form">
+            <label for="weight-input">Enter weight:</label>
+            <input type="number" id="weight-input" placeholder="Enter value" required />
+
+            <label for="from-unit">From:</label>
+            <select id="from-unit">
+                <option value="grams">Grams</option>
+                <option value="kilograms">Kilograms</option>
+                <option value="pounds">Pounds</option>
+                <option value="ounces">Ounces</option>
+                <option value="stones">Stones</option>
+            </select>
+
+            <label for="to-unit">To:</label>
+            <select id="to-unit">
+                <option value="grams">Grams</option>
+                <option value="kilograms">Kilograms</option>
+                <option value="pounds">Pounds</option>
+                <option value="ounces">Ounces</option>
+                <option value="stones">Stones</option>
+            </select>
+
+            <button type="submit">Convert</button>
+        </form>
+    </div>
+    <div id="weight-result-container" style="display: none;">
+        <p id="weight-result"></p>
+        <button id="reset-button">Reset</button>
+    </div>
+</div>
+
+<script>
+    const weightConversionRates = {
+        grams: { grams: 1, kilograms: 0.001, pounds: 0.00220462, ounces: 0.035274, stones: 0.000157473 },
+        kilograms: { grams: 1000, kilograms: 1, pounds: 2.20462, ounces: 35.274, stones: 0.157473 },
+        pounds: { grams: 453.592, kilograms: 0.453592, pounds: 1, ounces: 16, stones: 0.0714286 },
+        ounces: { grams: 28.3495, kilograms: 0.0283495, pounds: 0.0625, ounces: 1, stones: 0.00446429 },
+        stones: { grams: 6350.29, kilograms: 6.35029, pounds: 14, ounces: 224, stones: 1 }
+    };
+
+    const weightForm = document.getElementById('weight-form');
+    const weightResultContainer = document.getElementById('weight-result-container');
+    const weightResultText = document.getElementById('weight-result');
+    const weightResetButton = document.getElementById('reset-button');
+
+    weightForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const weightInput = parseFloat(document.getElementById('weight-input').value);
+        const fromUnit = document.getElementById('from-unit').value;
+        const toUnit = document.getElementById('to-unit').value;
+
+        if (!isNaN(weightInput)) {
+            const conversionRate = weightConversionRates[fromUnit][toUnit];
+            const convertedValue = weightInput * conversionRate;
+
+            weightResultText.textContent = `${weightInput} ${fromUnit} is equal to ${convertedValue.toFixed(2)} ${toUnit}.`;
+            weightForm.style.display = 'none';
+            weightResultContainer.style.display = 'block';
+        } else {
+            alert('Please enter a valid number.');
+        }
+    });
+
+    weightResetButton.addEventListener('click', function () {
+        weightForm.reset();
+        weightForm.style.display = 'block';
+        weightResultContainer.style.display = 'none';       
+    });
+</script>

@@ -1,0 +1,57 @@
+<!-- 
+You are required to build a simple web app that can convert between different units of measurement.
+It can convert units of length, weight, volume, area, temperature, and more.
+The user can input a value and select the units to convert from and to. The application will then display the converted value.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+</head>
+<body>
+    <header>
+        <div style="text-align: center; margin: 20px;">
+            <img src="./public/logoconverter.png" alt="Unit Converter Logo" style="width: 100px; height: auto;">
+            <h1>Unit Converter</h1>
+        </div>
+    </header>
+    <nav style="text-align: center; margin: 20px;">
+        <button onclick="loadComponent('length')">Length</button>
+        <button onclick="loadComponent('weight')">Weight</button>
+        <button onclick="loadComponent('temperature')">Temperature</button>
+    </nav>
+    <div id="component-container" style="text-align: center; margin: 20px;"></div>
+
+    <script>
+        function loadComponent(component) {
+            const container = document.getElementById('component-container');
+            fetch(`./src/Components/${component}.html`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Component not found');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    container.innerHTML = html;
+                    const loadedComponent = container.querySelector('div');
+                    if (loadedComponent) {
+                        loadedComponent.style.display = 'block';
+                    }
+                    const scripts = container.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = script.textContent;
+                        document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                    });
+                })
+                .catch(error => {
+                    container.innerHTML = `<p style="color: red;">Error loading component: ${error.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>
