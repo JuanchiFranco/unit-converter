@@ -31,10 +31,13 @@ The user can input a value and select the units to convert from and to. The appl
     
     <!-- Favicon -->
     <link rel="icon" href="./public/logoconverter.png" type="image/png">
+
+    <!-- styles -->
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
     <header>
-        <div style="text-align: center; margin: 20px;">
+        <div class="header-container" style="text-align: center; margin: 20px;">
             <img src="./public/logoconverter.png" alt="Unit Converter Logo" style="width: 100px; height: auto;">
             <h1>Unit Converter</h1>
         </div>
@@ -42,12 +45,12 @@ The user can input a value and select the units to convert from and to. The appl
     <main style="text-align: center; margin: 20px;">
         <h2>Convert Units of Measurement</h2>
         <p>Select a unit type to convert:</p>
+        <div class="buttons" style="text-align: center; margin: 20px;">
+            <button class="buttons-option" onclick="loadComponent('length')">Length</button>
+            <button class="buttons-option" onclick="loadComponent('weight')">Weight</button>
+            <button class="buttons-option" onclick="loadComponent('temperature')">Temperature</button>
+        </div>
     </main>
-    <div class="buttons" style="text-align: center; margin: 20px;">
-        <button class="buttons-option active" onclick="loadComponent('length')">Length</button>
-        <button class="buttons-option" onclick="loadComponent('weight')">Weight</button>
-        <button class="buttons-option" onclick="loadComponent('temperature')">Temperature</button>
-    </div>
     <div id="component-container" style="text-align: center; margin: 20px;"></div>
 
     <div id="result-container" style="text-align: center; margin: 20px; display: none;">
