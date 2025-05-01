@@ -1,5 +1,5 @@
 function loadComponent(component) {
-    fetch(`./src/Components/${component}.html`)
+    fetch(`./Components/${component}.html`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Component not found');
