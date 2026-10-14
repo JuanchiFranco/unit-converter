@@ -1,9 +1,9 @@
-<div id="weight-converter">
+<div id="weight-converter" class="converter">
     <h2>Weight Converter</h2>
     <div id="weight-form-container">
-        <form id="weight-form" onsubmit="convertUnits(event, 'weight')">
+        <form id="weight-form" class="converter-form" onsubmit="convertUnits(event, 'weight')">
             <label for="weight-input">Enter weight:</label>
-            <input type="number" id="weight-input" placeholder="Enter value" required />
+            <input type="number" step="any" id="weight-input" placeholder="Enter value" required />
 
             <label for="from-unit">From:</label>
             <select id="from-unit">
@@ -25,9 +25,5 @@
 
             <button type="submit">Convert</button>
         </form>
-    </div>
-    <div id="weight-result-container" style="display: none;">
-        <p id="weight-result"></p>
-        <button id="reset-button">Reset</button>
     </div>
 </div>

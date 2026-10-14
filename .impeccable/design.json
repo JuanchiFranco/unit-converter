@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-14T00:00:00Z",
+  "title": "Design System: Unit Converter",
+  "extensions": {
+    "colorMeta": {
+      "seafoam-mist": {
+        "role": "primary",
+        "displayName": "Seafoam Mist",
+        "canonical": "#87e8e0",
+        "tonalRamp": [
+          "#0c403c",
+          "#156b64",
+          "#1d968c",
+          "#25c1b4",
+          "#54ded3",
+          "#94eae3",
+          "#ccf5f2",
+          "#eafbf9"
+        ]
+      },
+      "lagoon": {
+        "role": "primary",
+        "displayName": "Lagoon",
+        "canonical": "#5cc6c1",
+        "tonalRamp": [
+          "#143937",
+          "#215e5c",
+          "#2e8480",
+          "#3baaa5",
+          "#68cac6",
+          "#a1dedb",
+          "#d2efee",
+          "#ecf8f8"
+        ]
+      },
+      "mist-paper": {
+        "role": "neutral",
+        "displayName": "Mist Paper",
+        "canonical": "#f5f8fa",
+        "tonalRamp": [
+          "#1a2933",
+          "#2b4455",
+          "#3c5f77",
+          "#4d7a99",
+          "#77a0bb",
+          "#aac3d4",
+          "#d6e2eb",
+          "#eef3f7"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#333333",
+        "tonalRamp": [
+          "#262626",
+          "#404040",
+          "#595959",
+          "#737373",
+          "#999999",
+          "#bfbfbf",
+          "#e0e0e0",
+          "#f2f2f2"
+        ]
+      },
+      "deep-teal": {
+        "role": "primary",
+        "displayName": "Deep Teal",
+        "canonical": "#0b4744",
+        "tonalRamp": [
+          "#0b4744",
+          "#145f5b",
+          "#1f7a75",
+          "#3a9a94",
+          "#5cbab4",
+          "#8fd3cf",
+          "#c3e9e7",
+          "#e8f6f5"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The Unit Converter title in the header and the result value."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The page lead \"Convert Units of Measurement\"."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Converter card titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Intro text, result lead-in, inputs and button labels."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form labels above their fields."
+      }
+    },
+    "shadows": [
+      {
+        "name": "header-lift",
+        "value": "0 4px 12px rgba(0, 0, 0, 0.1)",
+        "purpose": "The header banner."
+      },
+      {
+        "name": "card-rest",
+        "value": "0 2px 12px rgba(0, 0, 0, 0.05)",
+        "purpose": "Converter cards and the result card."
+      }
+    ],
+    "motion": [
+      {
+        "name": "transition",
+        "value": "0.3s ease",
+        "purpose": "Button background and 2px hover rise; input border color on focus."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Category tabs, Convert and Reset: aqua gradient that reverses and lifts on hover.",
+      "html": "<button class=\"ds-btn-primary\">Convert</button>",
+      "css": ".ds-btn-primary { background: linear-gradient(45deg, #87e8e0, #5cc6c1); color: #0b4744; font-weight: 600; border: 2px solid transparent; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-size: 1rem; font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.3s ease; } .ds-btn-primary:hover { background: linear-gradient(45deg, #5cc6c1, #87e8e0); transform: translateY(-2px); } .ds-btn-primary:focus-visible { outline: 3px solid #0b4744; outline-offset: 2px; }"
+    },
+    {
+      "name": "Active Tab Button",
+      "kind": "button",
+      "refersTo": "button-tab-active",
+      "description": "The selected category tab: white fill, Lagoon label and border.",
+      "html": "<button class=\"ds-btn-tab-active\">Length</button>",
+      "css": ".ds-btn-tab-active { background: #ffffff; color: #0b4744; font-weight: 600; border: 2px solid #0b4744; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-size: 1rem; font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif; cursor: pointer; } .ds-btn-tab-active:focus-visible { outline: 3px solid #0b4744; outline-offset: 2px; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Full-width number input with a label above; Lagoon border on focus.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-in\">Enter length:</label><input class=\"ds-input\" id=\"ds-in\" type=\"number\" placeholder=\"Enter value\" /></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 1rem; text-align: left; font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif; } .ds-label { font-weight: 600; color: #555555; } .ds-input { width: 100%; padding: 0.75rem 1rem; border: 1px solid #cccccc; border-radius: 0.5rem; font-size: 1rem; background-color: #f9f9f9; transition: border 0.3s ease; } .ds-input:focus { border-color: #0b4744; outline: 2px solid #0b4744; outline-offset: 1px; }"
+    },
+    {
+      "name": "Converter Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "White card with a Lagoon title holding a converter form.",
+      "html": "<div class=\"ds-card\"><h2 class=\"ds-card-title\">Length Converter</h2><p class=\"ds-card-text\">20 meters is equal to 65.62 feet.</p></div>",
+      "css": ".ds-card { background: #ffffff; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05); text-align: center; font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif; color: #333333; } .ds-card-title { color: #0b4744; font-size: 1.5rem; line-height: 1.2; margin: 0 0 1.5rem; } .ds-card-text { font-size: 1.25rem; margin: 0; }"
+    },
+    {
+      "name": "Header Banner",
+      "kind": "custom",
+      "refersTo": "header-banner",
+      "description": "Horizontal aqua gradient bar with the centered white title.",
+      "html": "<header class=\"ds-header\"><h1 class=\"ds-header-title\">Unit Converter</h1></header>",
+      "css": ".ds-header { background: linear-gradient(to right, #87e8e0, #5cc6c1); padding: 1.5rem 0; display: flex; justify-content: center; align-items: center; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); } .ds-header-title { color: #0b4744; font-size: 2rem; margin: 0; font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Cool Shallows",
+    "overview": "Light, airy, and translucent: everything feels like clear aqua water with white tiles resting just under the surface. The page is a single seafoam-to-mist gradient; the header, the category tabs, the converter card and the result card sit on it as soft, rounded, gently lifted pieces. One teal accent family carries every interactive element, so the page never asks the visitor to decode more than \"this is a button, this is where I type, this is the answer.\"\n\nThe system is small because the product is small. A quick lookup needs a calm, friendly surface that stays out of the way of the value and the result. Density is low, the layout is a single centered column, and personality comes from the water-toned color and the soft corners rather than from ornament.",
+    "keyCharacteristics": [
+      "One accent family (Seafoam Mist to Lagoon, with Deep Teal for text) used for every action.",
+      "White cards on a tinted gradient; depth is a faint shadow, never a border.",
+      "A single 8px corner radius everywhere.",
+      "Centered, single-column, max 700-800px.",
+      "Atkinson Hyperlegible Next (loaded from Google Fonts) is the only typeface, including on buttons and form controls."
+    ],
+    "rules": [
+      {
+        "name": "The One Family Rule",
+        "body": "Every accent is Seafoam Mist or Lagoon. No second hue is introduced for status, category or decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Gradient Direction Rule",
+        "body": "Surfaces fade from Seafoam Mist toward Mist Paper (page, 135deg) or toward Lagoon (header, 90deg; buttons, 45deg). Hover reverses a button's gradient rather than changing hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Deep Teal Text Rule",
+        "body": "Text on Seafoam Mist or Lagoon is Deep Teal, never white (white is 1.4-2:1 there). Lagoon is a fill, never a text or indicator color on white.",
+        "section": "colors"
+      },
+      {
+        "name": "The Plain Sans Rule",
+        "body": "One family, no italics, no uppercase, no letter-spacing tricks. Emphasis is weight 600/700 only.",
+        "section": "typography"
+      },
+      {
+        "name": "The Faint Lift Rule",
+        "body": "Shadows are ambient and nearly invisible. Interactivity is signalled by a 2px upward translate on hover, not by a heavier shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Number Leads Rule",
+        "body": "The converted value is set at Display size, 700, Deep Teal, tabular figures, on its own line; the sentence that introduces it is Body in Ink Soft. Form inputs use tabular figures too.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do keep every interactive element in the Seafoam Mist to Lagoon gradient with Deep Teal text and reverse the gradient on hover.",
+      "Do use the single 8px radius on every surface and control.",
+      "Do keep depth to Card rest and Header lift; place white cards on the tinted gradient.",
+      "Do keep layout a single centered column, 700px for content and 800px for the header.",
+      "Do keep the existing logo as the brand mark in the header."
+    ],
+    "donts": [
+      "Don't introduce a second accent hue for status, category or decoration.",
+      "Don't use borders or heavy shadows to separate cards; tone and a faint shadow do that.",
+      "Don't set white text on Seafoam Mist or Lagoon, or use Lagoon as text or an indicator on white; use Deep Teal.",
+      "Don't remove a focus indicator without replacing it with an equally visible Deep Teal one.",
+      "Don't use pill shapes, uppercase labels, or decorative type; the system is one plain sans at a few sizes."
+    ]
+  }
+}

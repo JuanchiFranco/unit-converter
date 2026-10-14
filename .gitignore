@@ -1,0 +1,34 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Despliegue (Vercel)
+.vercel/
+
+# Herramientas de IA / agentes (configuración y skills locales)
+.agent/
+.claude/
+.gemini/
+
+# Impeccable: caché y configuración local (design.json sí se versiona)
+.impeccable/hook.cache.json
+.impeccable/config.local.json
+.impeccable/live/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp

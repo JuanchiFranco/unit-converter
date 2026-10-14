@@ -1,9 +1,9 @@
-<div id="length-converter">
+<div id="length-converter" class="converter">
     <h2>Length Converter</h2>
     <div id="length-form-container">
-        <form id="length-form" onsubmit="convertUnits(event, 'length')">
+        <form id="length-form" class="converter-form" onsubmit="convertUnits(event, 'length')">
             <label for="length-input">Enter length:</label>
-            <input type="number" id="length-input" placeholder="Enter value" required />
+            <input type="number" step="any" id="length-input" placeholder="Enter value" required />
 
             <label for="from-unit">From:</label>
             <select id="from-unit">

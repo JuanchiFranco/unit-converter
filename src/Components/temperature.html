@@ -1,9 +1,9 @@
-<div id="temperature-converter">
+<div id="temperature-converter" class="converter">
     <h2>Temperature Converter</h2>
     <div id="temperature-form-container">
-        <form id="temperature-form" onsubmit="convertUnits(event, 'temperature')">
+        <form id="temperature-form" class="converter-form" onsubmit="convertUnits(event, 'temperature')">
             <label for="temperature-input">Enter temperature:</label>
-            <input type="number" id="temperature-input" placeholder="Enter value" required />
+            <input type="number" step="any" id="temperature-input" placeholder="Enter value" required />
 
             <label for="from-unit">From:</label>
             <select id="from-unit">

@@ -8,13 +8,49 @@ function loadComponent(component) {
         })
         .then(html => {
             document.getElementById('component-container').innerHTML = html;
+            document.getElementById('component-container').style.display = 'block';
             document.querySelectorAll('.buttons-option').forEach(button => {
                 button.classList.remove('active');
+                button.setAttribute('aria-pressed', 'false');
             });
 
-            document.querySelector(`[onClick="loadComponent('${component}')"]`).classList.add('active');
+            const activeButton = document.querySelector(`[onClick="loadComponent('${component}')"]`);
+            activeButton.classList.add('active');
+            activeButton.setAttribute('aria-pressed', 'true');
             document.getElementById('result-container').style.display = 'none';
         })
+        .catch(() => {
+            const container = document.getElementById('component-container');
+            container.style.display = 'block';
+            container.innerHTML = '<p class="load-error" role="alert">This converter could not be loaded. Check your connection and try again.</p>';
+            document.getElementById('result-container').style.display = 'none';
+        });
+}
+
+const SINGULAR_UNITS = {
+    meters: 'meter',
+    kilometers: 'kilometer',
+    miles: 'mile',
+    feet: 'foot',
+    inches: 'inch',
+    grams: 'gram',
+    kilograms: 'kilogram',
+    pounds: 'pound',
+    ounces: 'ounce',
+    stones: 'stone'
+};
+
+function unitLabel(unit, value) {
+    return Math.abs(value) === 1 && SINGULAR_UNITS[unit] ? SINGULAR_UNITS[unit] : unit;
+}
+
+// Two decimals for everyday values; significant digits for tiny ones so they don't round to 0.00.
+function formatResult(value) {
+    const isTiny = value !== 0 && Math.abs(value) < 0.01;
+    const options = isTiny
+        ? { maximumSignificantDigits: 3 }
+        : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+    return new Intl.NumberFormat('en-US', options).format(value);
 }
 
 function convertUnits(event, option) {
@@ -57,9 +93,16 @@ function convertUnits(event, option) {
             result = 'Invalid option';
     }
 
-    document.getElementById('result-text').textContent = `${inputValue} ${fromUnit} is equal to ${result.toFixed(2)} ${toUnit}.`;
+    const resultText = document.getElementById('result-text');
+    resultText.textContent = `${inputValue} ${unitLabel(fromUnit, inputValue)} is equal to `;
+    const resultValue = document.createElement('strong');
+    resultValue.className = 'result-value';
+    resultValue.textContent = `${formatResult(result)} ${unitLabel(toUnit, result)}`;
+    resultText.append(resultValue);
     document.getElementById('component-container').style.display = 'none';
-    document.getElementById('result-container').style.display = 'block';
+    const resultContainer = document.getElementById('result-container');
+    resultContainer.style.display = 'block';
+    resultContainer.focus();
 }
 
 function convertLength(fromUnit, toUnit, inputValue) {
@@ -125,4 +168,6 @@ function convertWeight(fromUnit, toUnit, inputValue) {
 function resetForm() {
     document.getElementById('component-container').style.display = 'block';
     document.getElementById('result-container').style.display = 'none';
+    const input = document.querySelector('#component-container input');
+    if (input) input.focus();
 }

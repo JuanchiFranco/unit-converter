@@ -2,11 +2,18 @@
 :root {
     --primary: #87e8e0;
     --primary-dark: #5cc6c1;
+    --primary-deep: #0b4744;
     --bg: #f5f8fa;
     --text: #333333;
+    --text-soft: #555555;
     --white: #ffffff;
     --radius: 0.5rem;
     --transition: 0.3s ease;
+
+    --font: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --text-lead: 1.25rem;
+    --text-title: 1.5rem;
+    --text-display: 2rem;
 }
 
 /* 2. Reset y centrado global */
@@ -21,13 +28,30 @@ body {
     flex-direction: column;
     align-items: center;
     background: linear-gradient(135deg, var(--primary) 0%, var(--bg) 100%);
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--font);
     color: var(--text);
     line-height: 1.6;
     min-height: 100vh;
-    padding: 1rem 0;
+    padding: 1rem;
 }
 
+h1,
+h2 {
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+::selection {
+    background: var(--primary-deep);
+    color: var(--white);
+}
+
+/* 3. Cabecera */
 header {
     position: relative;
     width: 100%;
@@ -57,8 +81,8 @@ header img {
 }
 
 header h1 {
-    color: var(--white);
-    font-size: 2rem;
+    color: var(--primary-deep);
+    font-size: var(--text-display);
     text-align: center;
 }
 
@@ -71,16 +95,45 @@ main {
 }
 
 main h2 {
-    font-size: 1.75rem;
+    font-size: var(--text-lead);
+    font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
 main p {
     margin-bottom: 1.5rem;
-    color: #555;
+    color: var(--text-soft);
 }
 
-/* 5. Botones de navegación */
+/* 5. Botones (navegación, convertir y reiniciar) */
+.buttons-option,
+#reset-button,
+.converter button[type="submit"] {
+    background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+    color: var(--primary-deep);
+    border: 2px solid transparent;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.buttons-option:hover,
+#reset-button:hover,
+.converter button[type="submit"]:hover {
+    background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+    transform: translateY(-2px);
+}
+
+.buttons-option:focus-visible,
+#reset-button:focus-visible,
+.converter button[type="submit"]:focus-visible {
+    outline: 3px solid var(--primary-deep);
+    outline-offset: 2px;
+}
+
 .buttons {
     display: flex;
     justify-content: center;
@@ -89,26 +142,14 @@ main p {
     margin-top: 1.5rem;
 }
 
-.buttons-option {
-    background: linear-gradient(45deg, var(--primary), var(--primary-dark));
-    color: var(--white);
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background var(--transition), transform var(--transition);
-}
-
-.buttons-option:hover {
-    background: linear-gradient(45deg, var(--primary-dark), var(--primary));
-    transform: translateY(-2px);
-}
-
 .buttons-option.active {
-    background: #ffffff;
-    color: var(--primary-dark);
-    border: 2px solid var(--primary-dark);
+    background: var(--white);
+    color: var(--primary-deep);
+    border-color: var(--primary-deep);
+}
+
+#reset-button {
+    padding: 0.75rem 1.25rem;
 }
 
 /* 6. Contenedor de componentes */
@@ -116,6 +157,15 @@ main p {
     width: 100%;
     max-width: 700px;
     margin: 2rem 0;
+    text-align: center;
+}
+
+.load-error {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    color: var(--text);
 }
 
 /* 7. Resultados de la conversión */
@@ -131,146 +181,115 @@ main p {
     text-align: center;
 }
 
+#result-container:focus {
+    outline: none;
+}
+
 #result-text {
-    font-size: 1.25rem;
     margin-bottom: 1rem;
-    color: var(--text);
+    color: var(--text-soft);
+    overflow-wrap: anywhere;
 }
 
-#reset-button {
-    background: linear-gradient(45deg, var(--primary), var(--primary-dark));
-    color: var(--white);
-    border: none;
-    padding: 0.75rem 1.25rem;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background var(--transition), transform var(--transition);
-}
-
-#reset-button:hover {
-    background: linear-gradient(45deg, var(--primary-dark), var(--primary));
-    transform: translateY(-2px);
-}
-
-/* 8. Estilos para cada componente cargado */
-.converter-component {
-    background: var(--white);
-    padding: 1.5rem;
-    border-radius: var(--radius);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-    margin-bottom: 2rem;
-}
-
-.converter-component label {
+.result-value {
     display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+    margin-top: 0.25rem;
+    color: var(--primary-deep);
+    font-size: var(--text-display);
+    font-weight: 700;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
 }
 
-.converter-component input,
-.converter-component select {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: var(--radius);
-    font-size: 1rem;
-}
-
-/* Length Converter Styles */
-#length-converter, #temperature-converter, #weight-converter {
+/* 8. Tarjeta y formulario de cada conversor */
+.converter {
     width: 100%;
     max-width: 700px;
     background: var(--white);
     padding: 2rem;
-    margin: 2rem 0;
     border-radius: var(--radius);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
     text-align: center;
 }
 
-#length-converter h2, #temperature-converter h2, #weight-converter h2 {
+.converter h2 {
     margin-bottom: 1.5rem;
-    color: var(--primary-dark);
-    font-size: 1.75rem;
+    color: var(--primary-deep);
+    font-size: var(--text-title);
 }
 
-#length-form-container, #temperature-form-container, #weight-form-container {
-    width: 100%;
-}
-
-#length-form, #temperature-form, #weight-form {
+.converter-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-#length-form label, #temperature-form label, #weight-form label {
+.converter-form label {
     text-align: left;
     font-weight: 600;
-    color: #555;
+    color: var(--text-soft);
 }
 
-#length-form input,
-#length-form select, 
-#temperature-form input,
-#temperature-form select,
-#weight-form input,
-#weight-form select {
+.converter-form input,
+.converter-form select {
     width: 100%;
     padding: 0.75rem 1rem;
     border: 1px solid #ccc;
     border-radius: var(--radius);
-    font-size: 1rem;
+    font: inherit;
+    font-variant-numeric: tabular-nums;
     background-color: #f9f9f9;
-    transition: border var(--transition);
+    transition: border-color var(--transition);
 }
 
-#length-form input:focus,
-#length-form select:focus,
-#temperature-form input:focus,
-#temperature-form select:focus,
-#weight-form input:focus,
-#weight-form select:focus {
-    border: 1px solid var(--primary-dark);
-    outline: none;
+.converter-form input::placeholder {
+    color: #6b6b6b;
 }
 
-#length-form button[type="submit"],
-#temperature-form button[type="submit"],
-#weight-form button[type="submit"] {
+.converter-form input:focus,
+.converter-form select:focus {
+    border-color: var(--primary-deep);
+    outline: 2px solid var(--primary-deep);
+    outline-offset: 1px;
+}
+
+.converter-form button[type="submit"] {
     margin-top: 1rem;
-    background: linear-gradient(45deg, var(--primary), var(--primary-dark));
-    color: var(--white);
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background var(--transition), transform var(--transition);
 }
-
-#length-form button[type="submit"]:hover,
-#temperature-form button[type="submit"]:hover,
-#weight-form button[type="submit"]:hover {
-    background: linear-gradient(45deg, var(--primary-dark), var(--primary));
-    transform: translateY(-2px);
-}
-  
 
 /* 9. Responsividad */
 @media (max-width: 600px) {
-    .header-container {
+    header .header-container {
         flex-direction: column;
     }
 
-    .header-container img {
+    header .header-container img {
         position: static;
         margin-bottom: 1rem;
     }
 
     .buttons {
         flex-direction: column;
+    }
+
+    .converter {
+        padding: 1.5rem;
+    }
+}
+
+/* 10. Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .buttons-option,
+    #reset-button,
+    .converter button[type="submit"],
+    .converter-form input,
+    .converter-form select {
+        transition: none;
+    }
+
+    .buttons-option:hover,
+    #reset-button:hover,
+    .converter button[type="submit"]:hover {
+        transform: none;
     }
 }
