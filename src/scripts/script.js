@@ -40,15 +40,21 @@ const SINGULAR_UNITS = {
     stones: 'stone'
 };
 
+const ABSOLUTE_ZERO = {
+    celsius: -273.15,
+    fahrenheit: -459.67,
+    kelvin: 0
+};
+
 function unitLabel(unit, value) {
     return Math.abs(value) === 1 && SINGULAR_UNITS[unit] ? SINGULAR_UNITS[unit] : unit;
 }
 
-// Two decimals for everyday values; significant digits for tiny ones so they don't round to 0.00.
+// Two decimals from 1 upward; four significant digits below 1 so small results keep their precision (0.012, not 0.01).
 function formatResult(value) {
-    const isTiny = value !== 0 && Math.abs(value) < 0.01;
-    const options = isTiny
-        ? { maximumSignificantDigits: 3 }
+    const isSmall = value !== 0 && Math.abs(value) < 1;
+    const options = isSmall
+        ? { maximumSignificantDigits: 4 }
         : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
     return new Intl.NumberFormat('en-US', options).format(value);
 }
@@ -84,6 +90,12 @@ function convertUnits(event, option) {
             inputValue = parseFloat(document.getElementById('temperature-input').value);
             if (isNaN(inputValue)) {
                 alert('Please enter a valid number');
+                return;
+            }
+            if (inputValue < ABSOLUTE_ZERO[fromUnit]) {
+                const temperatureInput = document.getElementById('temperature-input');
+                temperatureInput.setCustomValidity('Temperature cannot be below absolute zero.');
+                temperatureInput.reportValidity();
                 return;
             }
 
@@ -171,3 +183,12 @@ function resetForm() {
     const input = document.querySelector('#component-container input');
     if (input) input.focus();
 }
+
+// Clear any custom validation message as soon as the user edits the form.
+['input', 'change'].forEach(type => {
+    document.addEventListener(type, event => {
+        if (event.target.setCustomValidity) event.target.setCustomValidity('');
+    });
+});
+
+loadComponent('length');

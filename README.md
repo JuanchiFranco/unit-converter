@@ -25,4 +25,9 @@ Build a simple web page that will have different sections for different units of
     cd unit-converter
     ```
 
-2. Open the index.html in a browser and convert!!! 
+2. Serve the `src` folder with any static server (opening `index.html` directly won't work, because the converters are loaded with `fetch` and the assets use absolute paths):
+    ```bash
+    npx serve src
+    ```
+
+3. Open the printed local address in a browser and convert!!!

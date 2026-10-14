@@ -9,6 +9,7 @@ colors:
   card-white: "#ffffff"
   ink: "#333333"
   ink-soft: "#555555"
+  placeholder-ink: "#6b6b6b"
   field-fill: "#f9f9f9"
   field-border: "#cccccc"
 typography:
@@ -106,7 +107,8 @@ A monochromatic aqua palette over near-white neutrals: pale, cool, and low-contr
 - **Mist Paper** (#f5f8fa): the pale end of the page gradient.
 - **Card White** (#ffffff): converter cards, result card, and the active tab fill.
 - **Ink** (#333333): body and result text.
-- **Ink Soft** (#555555): supporting text and form labels.
+- **Ink Soft** (#555555): supporting text, form labels, and the result lead-in sentence.
+- **Placeholder Ink** (#6b6b6b): input placeholder text (5.1:1 on Field Fill).
 - **Field Fill** (#f9f9f9): input and select background.
 - **Field Border** (#cccccc): resting input and select border.
 

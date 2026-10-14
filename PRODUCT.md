@@ -26,7 +26,7 @@ Single-page static site. Visitors pick a category (Length, Weight, Temperature),
 
 - Categories today: Length (meters, kilometers, miles, feet, inches), Weight, Temperature.
 - Existing stack is plain HTML, CSS, and JavaScript with no build step and no framework (`src/index.html`, `src/styles.css`, `src/scripts/script.js`, category forms in `src/Components/`).
-- Result is shown to two decimal places with a Reset button.
+- Result is shown to two decimal places (four significant digits when below 1) with a Reset button.
 - Whether to add more categories, a framework, or an English/other-language split is undecided; no i18n or accessibility standard was specified.
 
 ## Brand Commitments
