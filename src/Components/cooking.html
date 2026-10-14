@@ -1,9 +1,13 @@
 <div id="cooking-converter" class="converter">
     <h2>Cooking Converter</h2>
     <div id="cooking-form-container">
-        <form id="cooking-form" class="converter-form" onsubmit="convertUnits(event, 'cooking')">
+        <form id="cooking-form" class="converter-form" data-converter="cooking">
+            <label for="ingredient-search">Find ingredient:</label>
+            <input type="search" id="ingredient-search" placeholder="Type to filter, e.g. rice" autocomplete="off" />
+            <p id="ingredient-status" class="visually-hidden" role="status"></p>
+
             <label for="ingredient">Ingredient:</label>
-            <select id="ingredient">
+            <select id="ingredient" required>
                 <optgroup label="Flours &amp; starches">
                     <option data-grams-per-cup="120.0">00 flour</option>
                     <option data-grams-per-cup="103.0">Amaranth flour</option>
@@ -569,9 +573,9 @@
 
     <p class="converter-credit">
         Ingredient weights from
-        <a href="https://cookbookmanager.com/tools/ingredient-weights" target="_blank" rel="noopener">CookBook Manager</a> (CC BY 4.0),
-        <a href="https://fdc.nal.usda.gov/" target="_blank" rel="noopener">USDA FoodData Central</a>,
-        <a href="https://www.kingarthurbaking.com/learn/ingredient-weight-chart" target="_blank" rel="noopener">King Arthur Baking</a>
-        and <a href="https://www.fao.org/infoods/infoods/tables-and-databases/en/" target="_blank" rel="noopener">FAO/INFOODS</a>.
+        <a href="https://cookbookmanager.com/tools/ingredient-weights" target="_blank" rel="noopener">CookBook Manager<span class="visually-hidden"> (opens in a new tab)</span></a> (CC BY 4.0),
+        <a href="https://fdc.nal.usda.gov/" target="_blank" rel="noopener">USDA FoodData Central<span class="visually-hidden"> (opens in a new tab)</span></a>,
+        <a href="https://www.kingarthurbaking.com/learn/ingredient-weight-chart" target="_blank" rel="noopener">King Arthur Baking<span class="visually-hidden"> (opens in a new tab)</span></a>
+        and <a href="https://www.fao.org/infoods/infoods/tables-and-databases/en/" target="_blank" rel="noopener">FAO/INFOODS<span class="visually-hidden"> (opens in a new tab)</span></a>.
     </p>
 </div>

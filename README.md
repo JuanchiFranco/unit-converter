@@ -43,3 +43,5 @@ The Cooking converter's ingredient weights (grams per US cup) come from:
 - [FAO/INFOODS density database](https://www.fao.org/infoods/infoods/tables-and-databases/en/).
 
 Values are approximate and vary with brand and how an ingredient is packed.
+
+The interface font, [Atkinson Hyperlegible Next](https://www.brailleinstitute.org/freefont/) by the Braille Institute, is self-hosted under the SIL Open Font License.

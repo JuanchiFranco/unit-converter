@@ -12,30 +12,28 @@ The user can input a value and select the units to convert from and to. The appl
     <title>Unit Converter</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="A simple and efficient unit converter web app to convert between length, weight, temperature, and more.">
-    <meta name="keywords" content="unit converter, length converter, weight converter, temperature converter, measurement converter">
+    <meta name="description" content="A simple and efficient unit converter web app to convert between length, weight, volume, cooking measurements, temperature, and more.">
+    <meta name="keywords" content="unit converter, length converter, weight converter, volume converter, cooking converter, cups to grams, temperature converter, measurement converter">
     <meta name="author" content="Juan Franco">
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Unit Converter">
     <meta property="og:description" content="Convert units of measurement easily with our Unit Converter web app.">
-    <meta property="og:image" content="/assets/logoconverter.png">
+    <meta property="og:image" content="https://unit-converter-beryl-delta.vercel.app/assets/logoconverter.png">
     <meta property="og:url" content="https://unit-converter-beryl-delta.vercel.app/">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Unit Converter">
     <meta name="twitter:description" content="A simple and efficient unit converter web app to convert between different units of measurement.">
-    <meta name="twitter:image" content="/assets/logoconverter.png">
+    <meta name="twitter:image" content="https://unit-converter-beryl-delta.vercel.app/assets/logoconverter.png">
     
     <!-- Favicon -->
-    <link rel="icon" href="/assets/logoconverter.png" type="image/png">
+    <link rel="icon" href="/assets/logo-160.png" type="image/png">
 
-    <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- fonts (self-hosted) -->
+    <link rel="preload" href="./assets/fonts/atkinson-hyperlegible-next-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- styles -->
     <link rel="stylesheet" href="./styles.css">
@@ -43,7 +41,7 @@ The user can input a value and select the units to convert from and to. The appl
 <body>
     <header>
         <div class="header-container">
-            <img src="/assets/logoconverter.png" alt="Unit Converter Logo">
+            <img src="/assets/logo-160.png" alt="" width="80" height="80">
             <h1>Unit Converter</h1>
         </div>
     </header>
@@ -51,18 +49,19 @@ The user can input a value and select the units to convert from and to. The appl
         <h2>Convert Units of Measurement</h2>
         <p>Select a unit type to convert:</p>
         <div class="buttons" role="group" aria-label="Unit type">
-            <button class="buttons-option" aria-pressed="false" onclick="loadComponent('length')">Length</button>
-            <button class="buttons-option" aria-pressed="false" onclick="loadComponent('weight')">Weight</button>
-            <button class="buttons-option" aria-pressed="false" onclick="loadComponent('volume')">Volume</button>
-            <button class="buttons-option" aria-pressed="false" onclick="loadComponent('cooking')">Cooking</button>
-            <button class="buttons-option" aria-pressed="false" onclick="loadComponent('temperature')">Temperature</button>
+            <button class="buttons-option" aria-pressed="false" aria-controls="component-container" data-converter="length">Length</button>
+            <button class="buttons-option" aria-pressed="false" aria-controls="component-container" data-converter="weight">Weight</button>
+            <button class="buttons-option" aria-pressed="false" aria-controls="component-container" data-converter="volume">Volume</button>
+            <button class="buttons-option" aria-pressed="false" aria-controls="component-container" data-converter="cooking">Cooking</button>
+            <button class="buttons-option" aria-pressed="false" aria-controls="component-container" data-converter="temperature">Temperature</button>
         </div>
 
         <div id="component-container"></div>
+        <p id="status" class="visually-hidden" role="status"></p>
 
         <div id="result-container" role="region" aria-label="Result" tabindex="-1">
             <p id="result-text"></p>
-            <button id="reset-button" onclick="resetForm()">Reset</button>
+            <button id="reset-button" type="button">Reset</button>
         </div>
     </main>
 

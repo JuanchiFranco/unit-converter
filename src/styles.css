@@ -1,3 +1,12 @@
+/* 0. Fuente local (Atkinson Hyperlegible Next, variable, latin) */
+@font-face {
+    font-family: 'Atkinson Hyperlegible Next';
+    src: url('./assets/fonts/atkinson-hyperlegible-next-latin.woff2') format('woff2');
+    font-weight: 200 800;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* 1. Variables de color y tipografía */
 :root {
     --primary: #87e8e0;
@@ -7,6 +16,8 @@
     --text: #333333;
     --text-soft: #555555;
     --placeholder: #6b6b6b;
+    --field-fill: #f9f9f9;
+    --field-border: #688a87;
     --white: #ffffff;
     --radius: 0.5rem;
     --transition: 0.3s ease;
@@ -15,6 +26,26 @@
     --text-lead: 1.25rem;
     --text-title: 1.5rem;
     --text-display: 2rem;
+    --text-result: clamp(1.5rem, 7.5vw, 2rem);
+    --text-note: 0.875rem;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Solo para lectores de pantalla */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
 }
 
 /* 2. Reset y centrado global */
@@ -121,11 +152,13 @@ main p {
     transition: background var(--transition), transform var(--transition);
 }
 
-.buttons-option:hover,
-#reset-button:hover,
-.converter button[type="submit"]:hover {
-    background: linear-gradient(45deg, var(--primary-dark), var(--primary));
-    transform: translateY(-2px);
+@media (hover: hover) {
+    .buttons-option:hover,
+    #reset-button:hover,
+    .converter button[type="submit"]:hover {
+        background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+        transform: translateY(-2px);
+    }
 }
 
 .buttons-option:focus-visible,
@@ -188,16 +221,18 @@ main p {
     margin-bottom: 1rem;
     color: var(--text-soft);
     overflow-wrap: anywhere;
+    text-wrap: balance;
 }
 
 .result-value {
     display: block;
     margin-top: 0.25rem;
     color: var(--primary-deep);
-    font-size: var(--text-display);
+    font-size: var(--text-result);
     font-weight: 700;
     line-height: 1.2;
     font-variant-numeric: tabular-nums;
+    text-wrap: balance;
 }
 
 /* 8. Tarjeta y formulario de cada conversor */
@@ -233,11 +268,12 @@ main p {
 .converter-form select {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--field-border);
     border-radius: var(--radius);
     font: inherit;
     font-variant-numeric: tabular-nums;
-    background-color: #f9f9f9;
+    color: var(--text);
+    background-color: var(--field-fill);
     transition: border-color var(--transition);
 }
 
@@ -263,7 +299,7 @@ main p {
 
 .converter-credit {
     margin-top: 1.5rem;
-    font-size: 0.875rem;
+    font-size: var(--text-note);
     color: var(--text-soft);
 }
 
@@ -275,7 +311,6 @@ main p {
 .converter-credit a:focus-visible {
     outline: 3px solid var(--primary-deep);
     outline-offset: 2px;
-    border-radius: 2px;
 }
 
 /* 9. Responsividad */

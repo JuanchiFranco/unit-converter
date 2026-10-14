@@ -100,6 +100,10 @@
       "label": {
         "displayName": "Label",
         "purpose": "Form labels above their fields."
+      },
+      "note": {
+        "displayName": "Note",
+        "purpose": "Data-source credit under the Cooking converter."
       }
     },
     "shadows": [
@@ -151,7 +155,7 @@
       "refersTo": "input-field",
       "description": "Full-width number input with a label above; Lagoon border on focus.",
       "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-in\">Enter length:</label><input class=\"ds-input\" id=\"ds-in\" type=\"number\" placeholder=\"Enter value\" /></div>",
-      "css": ".ds-field { display: flex; flex-direction: column; gap: 1rem; text-align: left; font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif; } .ds-label { font-weight: 600; color: #555555; } .ds-input { width: 100%; padding: 0.75rem 1rem; border: 1px solid #cccccc; border-radius: 0.5rem; font-size: 1rem; background-color: #f9f9f9; transition: border 0.3s ease; } .ds-input:focus { border-color: #0b4744; outline: 2px solid #0b4744; outline-offset: 1px; }"
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 1rem; text-align: left; font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif; } .ds-label { font-weight: 600; color: #555555; } .ds-input { width: 100%; padding: 0.75rem 1rem; border: 1px solid #688a87; border-radius: 0.5rem; font-size: 1rem; background-color: #f9f9f9; transition: border 0.3s ease; } .ds-input:focus { border-color: #0b4744; outline: 2px solid #0b4744; outline-offset: 1px; }"
     },
     {
       "name": "Converter Card",
@@ -208,7 +212,7 @@
       },
       {
         "name": "The Number Leads Rule",
-        "body": "The converted value is set at Display size, 700, Deep Teal, tabular figures, on its own line; the sentence that introduces it is Body in Ink Soft. Form inputs use tabular figures too.",
+        "body": "The converted value is set at Display size, 700, Deep Teal, tabular figures, on its own line; the sentence that introduces it is Body in Ink Soft. Form inputs and selects use tabular figures and Ink, not the browser default black.",
         "section": "typography"
       }
     ],

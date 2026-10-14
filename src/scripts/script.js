@@ -1,4 +1,11 @@
-function loadComponent(component) {
+let latestRequest = 0;
+
+function announce(message) {
+    document.getElementById('status').textContent = message;
+}
+
+function loadComponent(component, shouldAnnounce = false) {
+    const request = ++latestRequest;
     fetch(`./Components/${component}.html`)
         .then(response => {
             if (!response.ok) {
@@ -7,6 +14,7 @@ function loadComponent(component) {
             return response.text();
         })
         .then(html => {
+            if (request !== latestRequest) return;
             document.getElementById('component-container').innerHTML = html;
             document.getElementById('component-container').style.display = 'block';
             document.querySelectorAll('.buttons-option').forEach(button => {
@@ -14,12 +22,15 @@ function loadComponent(component) {
                 button.setAttribute('aria-pressed', 'false');
             });
 
-            const activeButton = document.querySelector(`[onClick="loadComponent('${component}')"]`);
+            const activeButton = document.querySelector(`.buttons-option[data-converter="${component}"]`);
             activeButton.classList.add('active');
             activeButton.setAttribute('aria-pressed', 'true');
             document.getElementById('result-container').style.display = 'none';
+            initIngredientSearch();
+            if (shouldAnnounce) announce(`${activeButton.textContent} converter loaded`);
         })
         .catch(() => {
+            if (request !== latestRequest) return;
             const container = document.getElementById('component-container');
             container.style.display = 'block';
             container.innerHTML = '<p class="load-error" role="alert">This converter could not be loaded. Check your connection and try again.</p>';
@@ -50,25 +61,33 @@ const SINGULAR_UNITS = {
     gallons: 'gallon'
 };
 
+const LENGTH_IN_METERS = {
+    meters: 1,
+    kilometers: 1000,
+    miles: 1609.344,
+    feet: 0.3048,
+    inches: 0.0254
+};
+
 const WEIGHT_IN_GRAMS = {
     milligrams: 0.001,
     grams: 1,
     kilograms: 1000,
-    ounces: 28.3495,
-    pounds: 453.592,
-    stones: 6350.29
+    ounces: 28.349523125,
+    pounds: 453.59237,
+    stones: 6350.29318
 };
 
 const VOLUME_IN_ML = {
-    teaspoons: 4.92892,
-    tablespoons: 14.7868,
-    'fluid ounces': 29.5735,
-    cups: 236.588,
+    teaspoons: 4.92892159375,
+    tablespoons: 14.78676478125,
+    'fluid ounces': 29.5735295625,
+    cups: 236.5882365,
     milliliters: 1,
     liters: 1000,
-    pints: 473.176,
-    quarts: 946.353,
-    gallons: 3785.41
+    pints: 473.176473,
+    quarts: 946.352946,
+    gallons: 3785.411784
 };
 
 const ABSOLUTE_ZERO = {
@@ -81,58 +100,53 @@ function unitLabel(unit, value) {
     return Math.abs(value) === 1 && SINGULAR_UNITS[unit] ? SINGULAR_UNITS[unit] : unit;
 }
 
-// Two decimals from 1 upward; four significant digits below 1 so small results keep their precision (0.012, not 0.01).
+// Two decimals from 1 upward; four significant digits below 1 so small results keep their precision (0.012, not 0.01);
+// whole numbers from a million up so the result still fits on a phone screen.
 function formatResult(value) {
-    const isSmall = value !== 0 && Math.abs(value) < 1;
-    const options = isSmall
-        ? { maximumSignificantDigits: 4 }
-        : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+    const abs = Math.abs(value);
+    let options = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+    if (value !== 0 && abs < 1) {
+        options = { maximumSignificantDigits: 4 };
+    } else if (abs >= 1e6) {
+        options = { maximumFractionDigits: 0 };
+    }
     return new Intl.NumberFormat('en-US', options).format(value);
 }
 
 function convertUnits(event, option) {
     event.preventDefault();
-    let fromUnit, toUnit, inputValue, result, ingredientName;
+    const input = document.getElementById(`${option}-input`);
+    const fromUnit = document.getElementById('from-unit').value;
+    const toUnit = document.getElementById('to-unit').value;
+    const inputValue = parseFloat(input.value);
+    if (isNaN(inputValue)) {
+        input.setCustomValidity('Please enter a valid number.');
+        input.reportValidity();
+        return;
+    }
+
+    let result;
+    let ingredientName = '';
 
     switch (option) {
         case 'length':
-            fromUnit = document.getElementById('from-unit').value;
-            toUnit = document.getElementById('to-unit').value;
-            inputValue = parseFloat(document.getElementById('length-input').value);
-            if (isNaN(inputValue)) {
-                alert('Please enter a valid number');
-                return;
-            }
             result = convertLength(fromUnit, toUnit, inputValue);
             break;
         case 'weight':
-            fromUnit = document.getElementById('from-unit').value;
-            toUnit = document.getElementById('to-unit').value;
-            inputValue = parseFloat(document.getElementById('weight-input').value);
-            if (isNaN(inputValue)) {
-                alert('Please enter a valid number');
-                return;
-            }
             result = convertWeight(fromUnit, toUnit, inputValue);
             break;
         case 'volume':
-            fromUnit = document.getElementById('from-unit').value;
-            toUnit = document.getElementById('to-unit').value;
-            inputValue = parseFloat(document.getElementById('volume-input').value);
-            if (isNaN(inputValue)) {
-                alert('Please enter a valid number');
-                return;
-            }
             result = convertVolume(fromUnit, toUnit, inputValue);
             break;
-        case 'cooking': {
-            fromUnit = document.getElementById('from-unit').value;
-            toUnit = document.getElementById('to-unit').value;
-            inputValue = parseFloat(document.getElementById('cooking-input').value);
-            if (isNaN(inputValue)) {
-                alert('Please enter a valid number');
+        case 'temperature':
+            if (inputValue < ABSOLUTE_ZERO[fromUnit]) {
+                input.setCustomValidity('Temperature cannot be below absolute zero.');
+                input.reportValidity();
                 return;
             }
+            result = convertTemperature(fromUnit, toUnit, inputValue);
+            break;
+        case 'cooking': {
             const ingredient = document.getElementById('ingredient');
             const selectedIngredient = ingredient.options[ingredient.selectedIndex];
             ingredientName = selectedIngredient.hasAttribute('data-keep-case')
@@ -141,25 +155,8 @@ function convertUnits(event, option) {
             result = convertCooking(Number(selectedIngredient.dataset.gramsPerCup), fromUnit, toUnit, inputValue);
             break;
         }
-        case 'temperature':
-            fromUnit = document.getElementById('from-unit').value;
-            toUnit = document.getElementById('to-unit').value;
-            inputValue = parseFloat(document.getElementById('temperature-input').value);
-            if (isNaN(inputValue)) {
-                alert('Please enter a valid number');
-                return;
-            }
-            if (inputValue < ABSOLUTE_ZERO[fromUnit]) {
-                const temperatureInput = document.getElementById('temperature-input');
-                temperatureInput.setCustomValidity('Temperature cannot be below absolute zero.');
-                temperatureInput.reportValidity();
-                return;
-            }
-
-            result = convertTemperature(fromUnit, toUnit, inputValue);
-            break;
         default:
-            result = 'Invalid option';
+            return;
     }
 
     const resultText = document.getElementById('result-text');
@@ -176,20 +173,7 @@ function convertUnits(event, option) {
 }
 
 function convertLength(fromUnit, toUnit, inputValue) {
-    const conversionRates = {
-        meters: { meters: 1, kilometers: 0.001, miles: 0.000621371, feet: 3.28084, inches: 39.3701 },
-        kilometers: { meters: 1000, kilometers: 1, miles: 0.621371, feet: 3280.84, inches: 39370.1 },
-        miles: { meters: 1609.34, kilometers: 1.60934, miles: 1, feet: 5280, inches: 63360 },
-        feet: { meters: 0.3048, kilometers: 0.0003048, miles: 0.000189394, feet: 1, inches: 12 },
-        inches: { meters: 0.0254, kilometers: 0.0000254, miles: 0.000015783, feet: 0.0833333, inches: 1 }
-    };
-
-    if (conversionRates[fromUnit] && conversionRates[fromUnit][toUnit]) {
-        return inputValue * conversionRates[fromUnit][toUnit];
-    } else {
-        throw new Error('Invalid conversion units');
-    }
-    
+    return convertByFactor(LENGTH_IN_METERS, fromUnit, toUnit, inputValue);
 }
 
 function convertTemperature(fromUnit, toUnit, inputValue) {
@@ -247,8 +231,59 @@ function convertCooking(gramsPerCup, fromUnit, toUnit, inputValue) {
 function resetForm() {
     document.getElementById('component-container').style.display = 'block';
     document.getElementById('result-container').style.display = 'none';
-    const input = document.querySelector('#component-container input');
+    const input = document.querySelector('#component-container input[id$="-input"]');
     if (input) input.focus();
+}
+
+// Lets people narrow the long ingredient list by typing; the select keeps the real value.
+function initIngredientSearch() {
+    const search = document.getElementById('ingredient-search');
+    const select = document.getElementById('ingredient');
+    if (!search || !select) return;
+
+    const status = document.getElementById('ingredient-status');
+    const groups = [...select.querySelectorAll('optgroup')].map(group => group.cloneNode(true));
+    let lastChoice = select.options[select.selectedIndex].text;
+
+    select.addEventListener('change', () => {
+        if (select.value) lastChoice = select.options[select.selectedIndex].text;
+    });
+
+    search.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById('cooking-input').focus();
+        }
+    });
+
+    search.addEventListener('input', () => {
+        const words = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        const matches = option => words.every(word => option.text.toLowerCase().includes(word));
+        let count = 0;
+
+        select.replaceChildren();
+        groups.forEach(group => {
+            const kept = [...group.children].filter(matches);
+            if (!kept.length) return;
+            const filteredGroup = group.cloneNode(false);
+            kept.forEach(option => filteredGroup.append(option.cloneNode(true)));
+            select.append(filteredGroup);
+            count += kept.length;
+        });
+
+        if (count === 0) {
+            // An empty first option acts as the placeholder, so the required select blocks submitting.
+            const none = document.createElement('option');
+            none.value = '';
+            none.textContent = 'No ingredients match';
+            select.prepend(none);
+        } else {
+            const previous = words.length ? null : [...select.options].find(option => option.text === lastChoice);
+            select.selectedIndex = previous ? previous.index : 0;
+        }
+
+        status.textContent = words.length ? (count ? `${count} ingredients match` : 'No ingredients match') : '';
+    });
 }
 
 // Clear any custom validation message as soon as the user edits the form.
@@ -257,5 +292,16 @@ function resetForm() {
         if (event.target.setCustomValidity) event.target.setCustomValidity('');
     });
 });
+
+document.querySelectorAll('.buttons-option').forEach(button => {
+    button.addEventListener('click', () => loadComponent(button.dataset.converter, true));
+});
+
+document.addEventListener('submit', event => {
+    const form = event.target.closest('form[data-converter]');
+    if (form) convertUnits(event, form.dataset.converter);
+});
+
+document.getElementById('reset-button').addEventListener('click', resetForm);
 
 loadComponent('length');

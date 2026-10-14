@@ -11,7 +11,7 @@ colors:
   ink-soft: "#555555"
   placeholder-ink: "#6b6b6b"
   field-fill: "#f9f9f9"
-  field-border: "#cccccc"
+  field-border: "#688a87"
 typography:
   display:
     fontFamily: "'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif"
@@ -37,6 +37,11 @@ typography:
     fontFamily: "'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif"
     fontSize: "1rem"
     fontWeight: 600
+    lineHeight: 1.6
+  note:
+    fontFamily: "'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 400
     lineHeight: 1.6
 rounded:
   md: "0.5rem"
@@ -92,7 +97,7 @@ The logo (`logoconverter.png`, black line mark) is a binding brand asset and sit
 - White cards on a tinted gradient; depth is a faint shadow, never a border.
 - A single 8px corner radius everywhere.
 - Centered, single-column, max 700-800px.
-- Atkinson Hyperlegible Next (loaded from Google Fonts) is the only typeface, including on buttons and form controls.
+- Atkinson Hyperlegible Next (self-hosted) is the only typeface, including on buttons and form controls.
 
 ## Colors
 
@@ -110,7 +115,7 @@ A monochromatic aqua palette over near-white neutrals: pale, cool, and low-contr
 - **Ink Soft** (#555555): supporting text, form labels, and the result lead-in sentence.
 - **Placeholder Ink** (#6b6b6b): input placeholder text (5.1:1 on Field Fill).
 - **Field Fill** (#f9f9f9): input and select background.
-- **Field Border** (#cccccc): resting input and select border.
+- **Field Border** (#688a87): resting input and select border, a muted teal-grey at 3.8:1 on white (3.6:1 on Field Fill) so fields are findable in bright light.
 
 ### Named Rules
 **The One Family Rule.** Every accent is Seafoam Mist or Lagoon. No second hue is introduced for status, category or decoration.
@@ -121,23 +126,24 @@ A monochromatic aqua palette over near-white neutrals: pale, cool, and low-contr
 
 ## Typography
 
-**Display Font:** Atkinson Hyperlegible Next (Google Fonts, weights 400/600/700, with system-ui as fallback)
+**Display Font:** Atkinson Hyperlegible Next (self-hosted variable WOFF2, latin subset, weights 400/600/700, with system-ui as fallback)
 **Body Font:** Atkinson Hyperlegible Next, same stack
 **Label/Mono Font:** none
 
 **Character:** One friendly, highly legible sans chosen for its unambiguous numerals (slashed zero, distinct 1/l/I), which matter in a tool whose output is a number. Hierarchy comes from size, weight and tone; headings use 1.2 line height and -0.01em tracking, body 1.6.
 
 ### Hierarchy
-- **Display** (700, 2rem, 1.2): the "Unit Converter" title in the header, Deep Teal on aqua; also the result value, the loudest thing on the page in its state.
+- **Display** (700, 2rem, 1.2): the "Unit Converter" title in the header, Deep Teal on aqua; also the result value, which scales fluidly from 1.5rem to 2rem (`clamp(1.5rem, 7.5vw, 2rem)`) so long numbers fit narrow screens.
 - **Headline** (600, 1.25rem, 1.2): the page lead "Convert Units of Measurement" in Ink.
 - **Title** (700, 1.5rem, 1.2): each converter card's title, Deep Teal.
 - **Body** (400, 1rem, 1.6): intro text (Ink Soft), inputs, and button labels (600 weight on buttons).
 - **Label** (600, 1rem, 1.6): form labels in Ink Soft, left-aligned above their field.
+- **Note** (400, 0.875rem, 1.6): the data-source credit under the Cooking converter, Ink Soft with Deep Teal links. The only role below 1rem.
 
 ### Named Rules
 **The Plain Sans Rule.** One family, no italics, no uppercase, no letter-spacing tricks. Emphasis is weight 600/700 only.
 
-**The Number Leads Rule.** The converted value is set at Display size, 700, Deep Teal, tabular figures, on its own line; the sentence that introduces it is Body in Ink Soft. Form inputs use tabular figures too.
+**The Number Leads Rule.** The converted value is set at Display size, 700, Deep Teal, tabular figures, on its own line; the sentence that introduces it is Body in Ink Soft. Form inputs and selects use tabular figures and Ink (#333333), not the browser default black.
 
 ## Layout
 
@@ -179,6 +185,7 @@ Soft and friendly: rounded corners, gentle gradients, a light lift on hover. App
 
 ### Inputs / Fields
 - **Style:** full width, Field Fill background, 1px Field Border, 8px radius, 0.75rem 1rem padding, 1rem text.
+- **Ingredient search:** the Cooking converter puts a plain search field (same style as other inputs) above the ingredient select; typing narrows the select live, and a hidden status line announces the match count.
 - **Focus:** the border becomes Deep Teal with a 2px Deep Teal outline offset 1px. The number input accepts any decimal (`step="any"`).
 - **Error / Disabled:** no styled states; invalid input currently raises a browser `alert`. A converter that fails to load shows a white notice card with `role="alert"`.
 
