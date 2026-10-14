@@ -261,6 +261,23 @@ main p {
     color: var(--text-soft);
 }
 
+.converter-credit {
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--text-soft);
+}
+
+.converter-credit a {
+    color: var(--primary-deep);
+    text-underline-offset: 0.15em;
+}
+
+.converter-credit a:focus-visible {
+    outline: 3px solid var(--primary-deep);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
 /* 9. Responsividad */
 @media (max-width: 600px) {
     header .header-container {

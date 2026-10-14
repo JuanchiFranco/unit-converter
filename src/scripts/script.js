@@ -135,7 +135,9 @@ function convertUnits(event, option) {
             }
             const ingredient = document.getElementById('ingredient');
             const selectedIngredient = ingredient.options[ingredient.selectedIndex];
-            ingredientName = selectedIngredient.text.toLowerCase();
+            ingredientName = selectedIngredient.hasAttribute('data-keep-case')
+                ? selectedIngredient.text
+                : selectedIngredient.text.charAt(0).toLowerCase() + selectedIngredient.text.slice(1);
             result = convertCooking(Number(selectedIngredient.dataset.gramsPerCup), fromUnit, toUnit, inputValue);
             break;
         }

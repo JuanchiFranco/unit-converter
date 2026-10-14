@@ -31,3 +31,15 @@ Build a simple web page that will have different sections for different units of
     ```
 
 3. Open the printed local address in a browser and convert!!!
+
+
+## Credits
+
+The Cooking converter's ingredient weights (grams per US cup) come from:
+
+- [CookBook Manager](https://cookbookmanager.com/tools/ingredient-weights), licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+- [USDA FoodData Central](https://fdc.nal.usda.gov/) (SR Legacy), public domain.
+- [King Arthur Baking ingredient weight chart](https://www.kingarthurbaking.com/learn/ingredient-weight-chart), published factual measurements.
+- [FAO/INFOODS density database](https://www.fao.org/infoods/infoods/tables-and-databases/en/).
+
+Values are approximate and vary with brand and how an ingredient is packed.
