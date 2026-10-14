@@ -20,11 +20,12 @@ Small and focused: a quick-lookup converter with no accounts, no backend, and no
 
 ## Operating Context
 
-Single-page static site. Visitors pick a category (Length, Weight, Temperature), the category's form loads in place, they submit, and the result appears with a Reset action.
+Single-page static site. Visitors pick a category (Length, Weight, Volume, Cooking, Temperature), the category's form loads in place, they submit, and the result appears with a Reset action.
 
 ## Capabilities and Constraints
 
-- Categories today: Length (meters, kilometers, miles, feet, inches), Weight, Temperature.
+- Categories today: Length, Weight (milligrams to stones), Volume (US cups, spoons, fluid ounces, pints, quarts, gallons, ml, liters), Cooking (ingredient-aware cup/spoon/ml to weight conversions using approximate grams-per-cup values stored on each ingredient option in `src/Components/cooking.html`), and Temperature.
+- Cooking is aimed at chefs and home cooks; its cup-to-weight values are approximations and are labelled as such in the UI.
 - Existing stack is plain HTML, CSS, and JavaScript with no build step and no framework (`src/index.html`, `src/styles.css`, `src/scripts/script.js`, category forms in `src/Components/`).
 - Result is shown to two decimal places (four significant digits when below 1) with a Reset button.
 - Whether to add more categories, a framework, or an English/other-language split is undecided; no i18n or accessibility standard was specified.

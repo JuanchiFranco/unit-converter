@@ -1,0 +1,39 @@
+<div id="volume-converter" class="converter">
+    <h2>Volume Converter</h2>
+    <div id="volume-form-container">
+        <form id="volume-form" class="converter-form" onsubmit="convertUnits(event, 'volume')">
+            <label for="volume-input">Enter volume:</label>
+            <input type="number" step="any" id="volume-input" placeholder="Enter value" required />
+
+            <label for="from-unit">From:</label>
+            <select id="from-unit">
+                <option value="cups">Cups</option>
+                <option value="tablespoons">Tablespoons</option>
+                <option value="teaspoons">Teaspoons</option>
+                <option value="fluid ounces">Fluid ounces</option>
+                <option value="milliliters">Milliliters</option>
+                <option value="liters">Liters</option>
+                <option value="pints">Pints</option>
+                <option value="quarts">Quarts</option>
+                <option value="gallons">Gallons</option>
+            </select>
+
+            <label for="to-unit">To:</label>
+            <select id="to-unit">
+                <option value="cups">Cups</option>
+                <option value="tablespoons">Tablespoons</option>
+                <option value="teaspoons">Teaspoons</option>
+                <option value="fluid ounces">Fluid ounces</option>
+                <option selected value="milliliters">Milliliters</option>
+                <option value="liters">Liters</option>
+                <option value="pints">Pints</option>
+                <option value="quarts">Quarts</option>
+                <option value="gallons">Gallons</option>
+            </select>
+
+            <p class="converter-note">US customary cups, spoons, pints, quarts and gallons.</p>
+
+            <button type="submit">Convert</button>
+        </form>
+    </div>
+</div>

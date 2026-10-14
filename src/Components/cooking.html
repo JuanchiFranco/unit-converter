@@ -1,0 +1,54 @@
+<div id="cooking-converter" class="converter">
+    <h2>Cooking Converter</h2>
+    <div id="cooking-form-container">
+        <form id="cooking-form" class="converter-form" onsubmit="convertUnits(event, 'cooking')">
+            <label for="ingredient">Ingredient:</label>
+            <select id="ingredient">
+                <option value="flour" data-grams-per-cup="125">All-purpose flour</option>
+                <option value="sugar" data-grams-per-cup="200">Granulated sugar</option>
+                <option value="brown-sugar" data-grams-per-cup="220">Brown sugar (packed)</option>
+                <option value="powdered-sugar" data-grams-per-cup="120">Powdered sugar</option>
+                <option value="butter" data-grams-per-cup="227">Butter</option>
+                <option value="honey" data-grams-per-cup="340">Honey</option>
+                <option value="oil" data-grams-per-cup="218">Vegetable oil</option>
+                <option value="water" data-grams-per-cup="237">Water</option>
+                <option value="milk" data-grams-per-cup="245">Milk</option>
+                <option value="rice" data-grams-per-cup="185">White rice (uncooked)</option>
+                <option value="oats" data-grams-per-cup="90">Rolled oats</option>
+                <option value="cocoa" data-grams-per-cup="85">Cocoa powder</option>
+                <option value="salt" data-grams-per-cup="288">Table salt</option>
+            </select>
+
+            <label for="cooking-input">Enter amount:</label>
+            <input type="number" step="any" id="cooking-input" placeholder="Enter value" required />
+
+            <label for="from-unit">From:</label>
+            <select id="from-unit">
+                <option value="cups">Cups</option>
+                <option value="tablespoons">Tablespoons</option>
+                <option value="teaspoons">Teaspoons</option>
+                <option value="milliliters">Milliliters</option>
+                <option value="grams">Grams</option>
+                <option value="ounces">Ounces (weight)</option>
+                <option value="pounds">Pounds</option>
+                <option value="kilograms">Kilograms</option>
+            </select>
+
+            <label for="to-unit">To:</label>
+            <select id="to-unit">
+                <option value="cups">Cups</option>
+                <option value="tablespoons">Tablespoons</option>
+                <option value="teaspoons">Teaspoons</option>
+                <option value="milliliters">Milliliters</option>
+                <option selected value="grams">Grams</option>
+                <option value="ounces">Ounces (weight)</option>
+                <option value="pounds">Pounds</option>
+                <option value="kilograms">Kilograms</option>
+            </select>
+
+            <p class="converter-note">Cup-to-weight values are approximate; they vary with brand and how the ingredient is packed.</p>
+
+            <button type="submit">Convert</button>
+        </form>
+    </div>
+</div>

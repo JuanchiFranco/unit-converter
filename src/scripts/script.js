@@ -37,7 +37,38 @@ const SINGULAR_UNITS = {
     kilograms: 'kilogram',
     pounds: 'pound',
     ounces: 'ounce',
-    stones: 'stone'
+    stones: 'stone',
+    milligrams: 'milligram',
+    cups: 'cup',
+    tablespoons: 'tablespoon',
+    teaspoons: 'teaspoon',
+    'fluid ounces': 'fluid ounce',
+    milliliters: 'milliliter',
+    liters: 'liter',
+    pints: 'pint',
+    quarts: 'quart',
+    gallons: 'gallon'
+};
+
+const WEIGHT_IN_GRAMS = {
+    milligrams: 0.001,
+    grams: 1,
+    kilograms: 1000,
+    ounces: 28.3495,
+    pounds: 453.592,
+    stones: 6350.29
+};
+
+const VOLUME_IN_ML = {
+    teaspoons: 4.92892,
+    tablespoons: 14.7868,
+    'fluid ounces': 29.5735,
+    cups: 236.588,
+    milliliters: 1,
+    liters: 1000,
+    pints: 473.176,
+    quarts: 946.353,
+    gallons: 3785.41
 };
 
 const ABSOLUTE_ZERO = {
@@ -61,7 +92,7 @@ function formatResult(value) {
 
 function convertUnits(event, option) {
     event.preventDefault();
-    let fromUnit, toUnit, inputValue, result;
+    let fromUnit, toUnit, inputValue, result, ingredientName;
 
     switch (option) {
         case 'length':
@@ -84,6 +115,30 @@ function convertUnits(event, option) {
             }
             result = convertWeight(fromUnit, toUnit, inputValue);
             break;
+        case 'volume':
+            fromUnit = document.getElementById('from-unit').value;
+            toUnit = document.getElementById('to-unit').value;
+            inputValue = parseFloat(document.getElementById('volume-input').value);
+            if (isNaN(inputValue)) {
+                alert('Please enter a valid number');
+                return;
+            }
+            result = convertVolume(fromUnit, toUnit, inputValue);
+            break;
+        case 'cooking': {
+            fromUnit = document.getElementById('from-unit').value;
+            toUnit = document.getElementById('to-unit').value;
+            inputValue = parseFloat(document.getElementById('cooking-input').value);
+            if (isNaN(inputValue)) {
+                alert('Please enter a valid number');
+                return;
+            }
+            const ingredient = document.getElementById('ingredient');
+            const selectedIngredient = ingredient.options[ingredient.selectedIndex];
+            ingredientName = selectedIngredient.text.toLowerCase();
+            result = convertCooking(Number(selectedIngredient.dataset.gramsPerCup), fromUnit, toUnit, inputValue);
+            break;
+        }
         case 'temperature':
             fromUnit = document.getElementById('from-unit').value;
             toUnit = document.getElementById('to-unit').value;
@@ -106,7 +161,8 @@ function convertUnits(event, option) {
     }
 
     const resultText = document.getElementById('result-text');
-    resultText.textContent = `${inputValue} ${unitLabel(fromUnit, inputValue)} is equal to `;
+    const ofIngredient = ingredientName ? ` of ${ingredientName}` : '';
+    resultText.textContent = `${inputValue} ${unitLabel(fromUnit, inputValue)}${ofIngredient} is equal to `;
     const resultValue = document.createElement('strong');
     resultValue.className = 'result-value';
     resultValue.textContent = `${formatResult(result)} ${unitLabel(toUnit, result)}`;
@@ -161,20 +217,29 @@ function convertTemperature(fromUnit, toUnit, inputValue) {
     }
 }
 
-function convertWeight(fromUnit, toUnit, inputValue) {
-    const weightConversionRates = {
-        grams: { grams: 1, kilograms: 0.001, pounds: 0.00220462, ounces: 0.035274, stones: 0.000157473 },
-        kilograms: { grams: 1000, kilograms: 1, pounds: 2.20462, ounces: 35.274, stones: 0.157473 },
-        pounds: { grams: 453.592, kilograms: 0.453592, pounds: 1, ounces: 16, stones: 0.0714286 },
-        ounces: { grams: 28.3495, kilograms: 0.0283495, pounds: 0.0625, ounces: 1, stones: 0.00446429 },
-        stones: { grams: 6350.29, kilograms: 6.35029, pounds: 14, ounces: 224, stones: 1 }
-    };
-
-    if (weightConversionRates[fromUnit] && weightConversionRates[fromUnit][toUnit]) {
-        return inputValue * weightConversionRates[fromUnit][toUnit];
-    } else {
+function convertByFactor(factors, fromUnit, toUnit, inputValue) {
+    if (!factors[fromUnit] || !factors[toUnit]) {
         throw new Error('Invalid conversion units');
     }
+    return inputValue * factors[fromUnit] / factors[toUnit];
+}
+
+function convertWeight(fromUnit, toUnit, inputValue) {
+    return convertByFactor(WEIGHT_IN_GRAMS, fromUnit, toUnit, inputValue);
+}
+
+function convertVolume(fromUnit, toUnit, inputValue) {
+    return convertByFactor(VOLUME_IN_ML, fromUnit, toUnit, inputValue);
+}
+
+// Volume units go through the ingredient's density (grams per ml); weight units are already in grams.
+function convertCooking(gramsPerCup, fromUnit, toUnit, inputValue) {
+    const gramsPerMl = gramsPerCup / VOLUME_IN_ML.cups;
+    const gramsPerUnit = { ...WEIGHT_IN_GRAMS };
+    Object.keys(VOLUME_IN_ML).forEach(unit => {
+        gramsPerUnit[unit] = VOLUME_IN_ML[unit] * gramsPerMl;
+    });
+    return convertByFactor(gramsPerUnit, fromUnit, toUnit, inputValue);
 }
 
 function resetForm() {

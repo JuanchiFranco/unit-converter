@@ -143,7 +143,7 @@ A monochromatic aqua palette over near-white neutrals: pale, cool, and low-contr
 
 A single centered column. The body is a flex column centered on the page with 1rem vertical padding; the header spans up to 800px and all content up to 700px. Blocks are separated by 2rem; inside a card padding is 2rem; inside a form, fields are stacked with a 1rem gap, each label above its full-width control. The category tabs sit in a centered, wrapping row with a 1rem gap.
 
-Responsive behavior is minimal: at 600px and below the header stacks (logo above the title, in flow instead of absolutely positioned), the tab buttons stack into a vertical column, and converter cards drop to 1.5rem padding. The page keeps 1rem side padding so cards never touch the viewport edge.
+Responsive behavior is minimal: at 600px and below the header stacks (logo above the title, in flow instead of absolutely positioned), the tab buttons become a two-column grid, and converter cards drop to 1.5rem padding. The page keeps 1rem side padding so cards never touch the viewport edge.
 
 ## Elevation & Depth
 
@@ -183,7 +183,7 @@ Soft and friendly: rounded corners, gentle gradients, a light lift on hover. App
 - **Error / Disabled:** no styled states; invalid input currently raises a browser `alert`. A converter that fails to load shows a white notice card with `role="alert"`.
 
 ### Navigation
-The category tabs (Length, Weight, Temperature) are the whole navigation: a centered wrapping row of primary buttons, stacked vertically on narrow screens. The active category takes the white-with-border treatment.
+The category tabs (Length, Weight, Volume, Cooking, Temperature) are the whole navigation: a centered wrapping row of primary buttons, a two-column grid on narrow screens with the odd last tab spanning the full width. The active category takes the white-with-border treatment.
 
 ### Header Banner
 A Seafoam Mist to Lagoon horizontal gradient bar, 8px radius, max 800px. The logo sits absolutely at the left (80px wide) and the Deep Teal title is centered. Under 600px the logo moves above the title.
